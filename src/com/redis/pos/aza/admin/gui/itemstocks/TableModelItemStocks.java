@@ -5,9 +5,7 @@
  */
 package com.redis.pos.aza.admin.gui.itemstocks;
 
-import com.redis.pos.aza.admin.controllers.ItemJpaController;
 import com.redis.pos.aza.admin.controllers.ItemStockJpaController;
-import com.redis.pos.aza.admin.entities.Item;
 import com.redis.pos.aza.admin.entities.ItemStock;
 import java.util.ArrayList;
 import java.util.List;

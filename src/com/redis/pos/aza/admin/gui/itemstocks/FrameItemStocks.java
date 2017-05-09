@@ -5,7 +5,6 @@
  */
 package com.redis.pos.aza.admin.gui.itemstocks;
 
-import com.redis.pos.aza.admin.gui.items.*;
 import javax.swing.RowFilter;
 
 /**
@@ -60,6 +59,23 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
           setIconifiable(true);
           setMaximizable(true);
           setResizable(true);
+          addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+               public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                    formInternalFrameOpened(evt);
+               }
+          });
 
           jToolBar1.setFloatable(false);
           jToolBar1.setRollover(true);
@@ -94,14 +110,15 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
           jPanel5.setLayout(new java.awt.BorderLayout());
 
           jXTable1.setModel(tableModel);
-          jXTable1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+          jXTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+          jXTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
           jXTable1.setRowHeight(25);
           jScrollPane1.setViewportView(jXTable1);
           this.resizeColumns();
 
           jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-          jXSearchField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+          jXSearchField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
           jXSearchField1.setColumns(25);
           jXSearchField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
           jXSearchField1.setToolTipText("Kerko ...");
@@ -131,6 +148,10 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
           RowFilter<TableModelItemStocks, Integer> rowFilter = RowFilter.regexFilter("(?i)" + jXSearchField1.getText());
 		this.jXTable1.setRowFilter(rowFilter);
      }//GEN-LAST:event_jXSearchField1ActionPerformed
+
+     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+          this.jButton1ActionPerformed(null);
+     }//GEN-LAST:event_formInternalFrameOpened
 
 
      // Variables declaration - do not modify//GEN-BEGIN:variables

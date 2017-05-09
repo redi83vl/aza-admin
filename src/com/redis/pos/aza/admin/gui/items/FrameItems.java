@@ -6,6 +6,9 @@
 package com.redis.pos.aza.admin.gui.items;
 
 import com.redis.pos.aza.admin.gui.itemstocks.TableModelItemStocks;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.RowFilter;
 
 /**
@@ -29,6 +32,32 @@ public class FrameItems extends javax.swing.JInternalFrame {
 		this.jXTable1.packColumn(7, 100);
 	}
 	
+	private void applyRowFilter(){
+		
+		List<RowFilter<TableModelItems, Integer>> filters = new ArrayList();
+		
+		//FILTER CATEGORY
+		if(comboCategory.getSelectedIndex() > 0){
+			filters.add(RowFilter.regexFilter(comboCategory.getSelectedItem().toString(), 1));
+		}
+		
+		//FILTER SUPPLIER
+		if(comboSupplier.getSelectedIndex() > 0){
+			filters.add(RowFilter.regexFilter(comboSupplier.getSelectedItem().toString(), 3));
+		}
+		
+		//FILTER QUANTITY
+		switch(comboQuant.getSelectedIndex()){
+			case 1: filters.add(RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, -Double.MIN_VALUE, 7)); break;
+			case 2: filters.add(RowFilter.numberFilter(RowFilter.ComparisonType.BEFORE, +Double.MIN_VALUE, 7)); break;
+			case 3: filters.add(RowFilter.numberFilter(RowFilter.ComparisonType.EQUAL, 0, 7)); break;
+			case 4: filters.add(RowFilter.numberFilter(RowFilter.ComparisonType.AFTER, -Double.MIN_VALUE, 7)); break;
+			case 5: filters.add(RowFilter.numberFilter(RowFilter.ComparisonType.AFTER, +Double.MIN_VALUE, 7)); break;
+		}
+		
+		this.jXTable1.setRowFilter(RowFilter.andFilter(filters));
+	}
+	
 	@SuppressWarnings("unchecked")
      // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
      private void initComponents() {
@@ -41,9 +70,9 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jPanel1 = new javax.swing.JPanel();
           jXSearchField1 = new org.jdesktop.swingx.JXSearchField();
           jPanel3 = new javax.swing.JPanel();
-          jComboBox1 = new javax.swing.JComboBox<>();
-          jComboBox2 = new javax.swing.JComboBox<>();
-          jComboBox3 = new javax.swing.JComboBox<>();
+          comboCategory = new javax.swing.JComboBox<>();
+          comboSupplier = new javax.swing.JComboBox<>();
+          comboQuant = new javax.swing.JComboBox<>();
           jLabel1 = new javax.swing.JLabel();
           jLabel2 = new javax.swing.JLabel();
           jLabel3 = new javax.swing.JLabel();
@@ -58,6 +87,23 @@ public class FrameItems extends javax.swing.JInternalFrame {
           setIconifiable(true);
           setMaximizable(true);
           setResizable(true);
+          addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+               public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+               }
+               public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                    formInternalFrameOpened(evt);
+               }
+          });
 
           jPanel4.setLayout(new java.awt.BorderLayout());
 
@@ -65,7 +111,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jPanel5.setLayout(new java.awt.BorderLayout());
 
           jXTable1.setModel(tableModelItems1);
-          jXTable1.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+          jXTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
           jXTable1.setRowHeight(25);
           jScrollPane1.setViewportView(jXTable1);
           this.resizeColumns();
@@ -75,7 +121,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
 
           jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-          jXSearchField1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+          jXSearchField1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
           jXSearchField1.setColumns(25);
           jXSearchField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
           jXSearchField1.setToolTipText("Kerko ...");
@@ -95,40 +141,32 @@ public class FrameItems extends javax.swing.JInternalFrame {
 
           jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-          jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-          jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Te Gjitha Kategorite -" }));
-          jComboBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-          jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+          comboCategory.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+          comboCategory.setMaximumRowCount(25);
+          comboCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Te Gjitha Kategorite -" }));
+          comboCategory.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+          comboCategory.addItemListener(new java.awt.event.ItemListener() {
                public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                    jComboBox1ItemStateChanged(evt);
+                    comboCategoryItemStateChanged(evt);
                }
           });
 
-          jComboBox2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-          jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Te Gjithe Fornitoret -" }));
-          jComboBox2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-          jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+          comboSupplier.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+          comboSupplier.setMaximumRowCount(25);
+          comboSupplier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Te Gjithe Fornitoret -" }));
+          comboSupplier.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+          comboSupplier.addItemListener(new java.awt.event.ItemListener() {
                public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                    jComboBox2ItemStateChanged(evt);
-               }
-          });
-          jComboBox2.addActionListener(new java.awt.event.ActionListener() {
-               public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jComboBox2ActionPerformed(evt);
+                    comboSupplierItemStateChanged(evt);
                }
           });
 
-          jComboBox3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-          jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Te Gjitha Sasite -", "Negative", "Negative ose Zero", "Zero", "Zero ose Pozitive", "Pozitive" }));
-          jComboBox3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-          jComboBox3.addItemListener(new java.awt.event.ItemListener() {
+          comboQuant.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+          comboQuant.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "- Te Gjitha Sasite -", "Negative", "Negative ose Zero", "Zero", "Zero ose Pozitive", "Pozitive" }));
+          comboQuant.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+          comboQuant.addItemListener(new java.awt.event.ItemListener() {
                public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                    jComboBox3ItemStateChanged(evt);
-               }
-          });
-          jComboBox3.addActionListener(new java.awt.event.ActionListener() {
-               public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jComboBox3ActionPerformed(evt);
+                    comboQuantItemStateChanged(evt);
                }
           });
 
@@ -154,9 +192,9 @@ public class FrameItems extends javax.swing.JInternalFrame {
                          .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                         .addComponent(jComboBox1, 0, 200, Short.MAX_VALUE)
-                         .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                         .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                         .addComponent(comboCategory, 0, 200, Short.MAX_VALUE)
+                         .addComponent(comboSupplier, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                         .addComponent(comboQuant, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
           );
           jPanel3Layout.setVerticalGroup(
@@ -164,15 +202,15 @@ public class FrameItems extends javax.swing.JInternalFrame {
                .addGroup(jPanel3Layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(comboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(jLabel1))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                         .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(comboSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(jLabel2))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                         .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                         .addComponent(comboQuant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                          .addComponent(jLabel3))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,18 +261,32 @@ public class FrameItems extends javax.swing.JInternalFrame {
           pack();
      }// </editor-fold>//GEN-END:initComponents
 
-     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-          // TODO add your handling code here:
-     }//GEN-LAST:event_jComboBox2ActionPerformed
-
-     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
-          // TODO add your handling code here:
-     }//GEN-LAST:event_jComboBox3ActionPerformed
-
      private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
           this.tableModelItems1.reload();
-		
 		this.resizeColumns();
+		
+		
+		
+		DefaultComboBoxModel<String> comboBoxModelCategory = new DefaultComboBoxModel<>();
+		comboBoxModelCategory.addElement("- Te Gjitha Kategorite -");
+		
+		DefaultComboBoxModel<String> comboBoxModelSupplier = new DefaultComboBoxModel<>();
+		comboBoxModelSupplier.addElement("- Te Gjithe Fornitoret -");
+		
+		for(int idx = 0; idx < tableModelItems1.getRowCount(); idx++){
+		
+			String category = tableModelItems1.getItem(idx).getCategory();
+			
+			if(comboBoxModelCategory.getIndexOf(category) == -1)
+				comboBoxModelCategory.addElement(category);
+			comboCategory.setModel(comboBoxModelCategory);
+			
+			String supplier = tableModelItems1.getItem(idx).getSupplier();
+			
+			if(comboBoxModelSupplier.getIndexOf(category) == -1)
+				comboBoxModelSupplier.addElement(supplier);
+			comboSupplier.setModel(comboBoxModelSupplier);
+		}
      }//GEN-LAST:event_jButton1ActionPerformed
 
      private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -245,32 +297,36 @@ public class FrameItems extends javax.swing.JInternalFrame {
           // TODO add your handling code here:
      }//GEN-LAST:event_jButton3ActionPerformed
 
-     private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
-          // TODO add your handling code here:
-     }//GEN-LAST:event_jComboBox1ItemStateChanged
+     private void comboCategoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboCategoryItemStateChanged
+          this.applyRowFilter();
+     }//GEN-LAST:event_comboCategoryItemStateChanged
 
-     private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
-          // TODO add your handling code here:
-     }//GEN-LAST:event_jComboBox2ItemStateChanged
+     private void comboSupplierItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSupplierItemStateChanged
+          this.applyRowFilter();
+     }//GEN-LAST:event_comboSupplierItemStateChanged
 
-     private void jComboBox3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox3ItemStateChanged
-          // TODO add your handling code here:
-     }//GEN-LAST:event_jComboBox3ItemStateChanged
+     private void comboQuantItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboQuantItemStateChanged
+          this.applyRowFilter();
+     }//GEN-LAST:event_comboQuantItemStateChanged
 
      private void jXSearchField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXSearchField1ActionPerformed
           RowFilter<TableModelItemStocks, Integer> rowFilter = RowFilter.regexFilter("(?i)" + jXSearchField1.getText());
 		this.jXTable1.setRowFilter(rowFilter);
      }//GEN-LAST:event_jXSearchField1ActionPerformed
 
+     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+          this.jButton1ActionPerformed(null);
+     }//GEN-LAST:event_formInternalFrameOpened
+
 
      // Variables declaration - do not modify//GEN-BEGIN:variables
+     private javax.swing.JComboBox<String> comboCategory;
+     private javax.swing.JComboBox<String> comboQuant;
+     private javax.swing.JComboBox<String> comboSupplier;
      private javax.swing.Box.Filler filler1;
      private javax.swing.JButton jButton1;
      private javax.swing.JButton jButton3;
      private javax.swing.JButton jButton4;
-     private javax.swing.JComboBox<String> jComboBox1;
-     private javax.swing.JComboBox<String> jComboBox2;
-     private javax.swing.JComboBox<String> jComboBox3;
      private javax.swing.JLabel jLabel1;
      private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel3;

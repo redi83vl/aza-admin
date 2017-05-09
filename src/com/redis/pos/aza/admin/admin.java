@@ -6,6 +6,10 @@
 package com.redis.pos.aza.admin;
 
 import com.redis.pos.aza.admin.gui.FrameMain;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -14,6 +18,13 @@ import com.redis.pos.aza.admin.gui.FrameMain;
 public class admin {
 
 	public static void main(String args[]) {
+		try {
+			UIManager.setLookAndFeel(com.jtattoo.plaf.acryl.AcrylLookAndFeel.class.getName());
+		} 
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+			Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
 		java.awt.EventQueue.invokeLater(() -> {
 			new FrameMain().setVisible(true);
 		});
