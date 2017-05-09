@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.redis.pos.aza.admin.gui.items;
+package com.redis.pos.aza.admin.gui.itemstocks;
 
 import com.redis.pos.aza.admin.controllers.ItemJpaController;
+import com.redis.pos.aza.admin.controllers.ItemStockJpaController;
 import com.redis.pos.aza.admin.entities.Item;
+import com.redis.pos.aza.admin.entities.ItemStock;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -19,56 +19,53 @@ import javax.swing.table.TableModel;
  *
  * @author Redjan Shabani info@redis.com.al
  */
-public class TableModelItems implements TableModel{
-
-	private final List<TableModelListener> listeners;
-	private List<Item> items;
+public class TableModelItemStocks implements TableModel{
 	
-	public TableModelItems(){
+	private final List<TableModelListener> listeners;
+	private List<ItemStock> itemStocks;
+	
+	public TableModelItemStocks(){
 		this.listeners = new ArrayList<>();
-		this.items = new ArrayList<>();
+		this.itemStocks = new ArrayList<>();
 	}
 	
 	public void reload(){
-		this.items = ItemJpaController.getInstance().findItemEntities();
+		this.itemStocks = ItemStockJpaController.getInstance().findItemStockEntities();
 		
 		this.listeners.forEach(listener -> {
 			listener.tableChanged(new TableModelEvent(this));
 		});
 	}
 	
-	public Item getItem(int index){
-		return this.items.get(index);
-	}
-	
+
 	@Override
 	public int getRowCount() {
-		return this.items.size();
+		return this.itemStocks.size();
 	}
 
 	@Override
 	public int getColumnCount() {
-		return Item.getFieldCount();
+		return ItemStock.getFieldCount();
 	}
 
 	@Override
 	public String getColumnName(int columnIndex) {
-		return Item.getFieldName(columnIndex);
+		return ItemStock.getFieldName(columnIndex);
 	}
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		return Item.getFieldClass(columnIndex);
+		return ItemStock.getFieldClass(columnIndex);
 	}
 
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
-		return Item.isFieldEditable(columnIndex);
+		return ItemStock.isFieldEditable(columnIndex);
 	}
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		return this.items.get(rowIndex).toArray()[columnIndex];
+		return this.itemStocks.get(rowIndex).toArray()[columnIndex];
 	}
 
 	@Override

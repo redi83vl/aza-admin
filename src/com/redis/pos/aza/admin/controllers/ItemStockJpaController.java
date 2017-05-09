@@ -7,7 +7,7 @@ package com.redis.pos.aza.admin.controllers;
 
 import com.redis.pos.aza.admin.controllers.exceptions.NonexistentEntityException;
 import com.redis.pos.aza.admin.controllers.exceptions.PreexistingEntityException;
-import com.redis.pos.aza.admin.entities.Item;
+import com.redis.pos.aza.admin.entities.ItemStock;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -22,13 +22,13 @@ import javax.persistence.criteria.Root;
  *
  * @author Redjan Shabani info@redis.com.al
  */
-public class ItemJpaController implements Serializable {
-
-	public static ItemJpaController getInstance(){
-		return new ItemJpaController(Persistence.createEntityManagerFactory("aza-adminPU"));
-	}
+public class ItemStockJpaController implements Serializable {
 	
-	public ItemJpaController(EntityManagerFactory emf) {
+	public static ItemStockJpaController getInstance(){
+		return new ItemStockJpaController(Persistence.createEntityManagerFactory("aza-adminPU"));
+	}
+
+	public ItemStockJpaController(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
 	private EntityManagerFactory emf = null;
@@ -36,20 +36,20 @@ public class ItemJpaController implements Serializable {
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
-
-	public List<Item> findItemEntities() {
-		return findItemEntities(true, -1, -1);
+	
+	public List<ItemStock> findItemStockEntities() {
+		return findItemStockEntities(true, -1, -1);
 	}
 
-	public List<Item> findItemEntities(int maxResults, int firstResult) {
-		return findItemEntities(false, maxResults, firstResult);
+	public List<ItemStock> findItemStockEntities(int maxResults, int firstResult) {
+		return findItemStockEntities(false, maxResults, firstResult);
 	}
 
-	private List<Item> findItemEntities(boolean all, int maxResults, int firstResult) {
+	private List<ItemStock> findItemStockEntities(boolean all, int maxResults, int firstResult) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-			cq.select(cq.from(Item.class));
+			cq.select(cq.from(ItemStock.class));
 			Query q = em.createQuery(cq);
 			if (!all) {
 				q.setMaxResults(maxResults);
@@ -61,20 +61,20 @@ public class ItemJpaController implements Serializable {
 		}
 	}
 
-	public Item findItem(int id) {
+	public ItemStock findItemStock(int id) {
 		EntityManager em = getEntityManager();
 		try {
-			return em.find(Item.class, id);
+			return em.find(ItemStock.class, id);
 		} finally {
 			em.close();
 		}
 	}
 
-	public int getItemCount() {
+	public int getItemStockCount() {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-			Root<Item> rt = cq.from(Item.class);
+			Root<ItemStock> rt = cq.from(ItemStock.class);
 			cq.select(em.getCriteriaBuilder().count(rt));
 			Query q = em.createQuery(cq);
 			return ((Long) q.getSingleResult()).intValue();
@@ -82,8 +82,5 @@ public class ItemJpaController implements Serializable {
 			em.close();
 		}
 	}
-
-	public void close() {
-		emf.close();
-	}
+	
 }

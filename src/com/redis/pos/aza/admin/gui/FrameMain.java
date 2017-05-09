@@ -6,9 +6,12 @@
 package com.redis.pos.aza.admin.gui;
 
 import com.redis.pos.aza.admin.gui.items.FrameItems;
+import com.redis.pos.aza.admin.gui.itemstocks.FrameItemStocks;
+import java.awt.Component;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JInternalFrame;
 
 /**
  *
@@ -33,6 +36,7 @@ public class FrameMain extends javax.swing.JFrame {
 
           jToolBar1 = new javax.swing.JToolBar();
           jButton1 = new javax.swing.JButton();
+          jButton2 = new javax.swing.JButton();
           jPanel1 = new javax.swing.JPanel();
           jLabel1 = new javax.swing.JLabel();
           jDesktopPane1 = new javax.swing.JDesktopPane();
@@ -44,6 +48,7 @@ public class FrameMain extends javax.swing.JFrame {
           jToolBar1.setRollover(true);
 
           jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ic/book-32.png"))); // NOI18N
+          jButton1.setToolTipText("Katalogu i Artikujve");
           jButton1.setFocusable(false);
           jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
           jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -53,6 +58,18 @@ public class FrameMain extends javax.swing.JFrame {
                }
           });
           jToolBar1.add(jButton1);
+
+          jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ic/Shop-32.png"))); // NOI18N
+          jButton2.setToolTipText("Gjendja e artikujve ne stok");
+          jButton2.setFocusable(false);
+          jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+          jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+          jButton2.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton2ActionPerformed(evt);
+               }
+          });
+          jToolBar1.add(jButton2);
 
           getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
@@ -81,7 +98,15 @@ public class FrameMain extends javax.swing.JFrame {
      }// </editor-fold>//GEN-END:initComponents
 
      private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          FrameItems frameItems = new FrameItems();
+          for(JInternalFrame jInternalFrame : this.jDesktopPane1.getAllFrames()){
+			if(jInternalFrame instanceof FrameItems){
+				jInternalFrame.moveToFront();
+				return;
+			}
+		}
+		
+		
+		FrameItems frameItems = new FrameItems();
 		jDesktopPane1.add(frameItems);
 		frameItems.setVisible(true);
 		
@@ -93,8 +118,29 @@ public class FrameMain extends javax.swing.JFrame {
 		}
      }//GEN-LAST:event_jButton1ActionPerformed
 
+     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+          for(JInternalFrame jInternalFrame : this.jDesktopPane1.getAllFrames()){
+			if(jInternalFrame instanceof FrameItemStocks){
+				jInternalFrame.moveToFront();
+				return;
+			}
+		}
+		
+		FrameItemStocks frameItemStocks = new FrameItemStocks();
+		jDesktopPane1.add(frameItemStocks);
+		frameItemStocks.setVisible(true);
+		
+		try {
+			frameItemStocks.setMaximum(true);
+		} 
+		catch (PropertyVetoException ex) {
+			Logger.getLogger(FrameMain.class.getName()).log(Level.SEVERE, null, ex);
+		}
+     }//GEN-LAST:event_jButton2ActionPerformed
+
      // Variables declaration - do not modify//GEN-BEGIN:variables
      private javax.swing.JButton jButton1;
+     private javax.swing.JButton jButton2;
      private javax.swing.JDesktopPane jDesktopPane1;
      private javax.swing.JLabel jLabel1;
      private javax.swing.JPanel jPanel1;
