@@ -5,6 +5,7 @@
  */
 package com.redis.pos.aza.admin.gui;
 
+import com.redis.pos.aza.admin.gui.itemdiscounts.FrameItemDiscounts;
 import com.redis.pos.aza.admin.gui.items.FrameItems;
 import com.redis.pos.aza.admin.gui.itemstocks.FrameItemStocks;
 import java.awt.Component;
@@ -37,6 +38,7 @@ public class FrameMain extends javax.swing.JFrame {
           jToolBar1 = new javax.swing.JToolBar();
           jButton1 = new javax.swing.JButton();
           jButton2 = new javax.swing.JButton();
+          jButton3 = new javax.swing.JButton();
           jPanel1 = new javax.swing.JPanel();
           jLabel1 = new javax.swing.JLabel();
           jDesktopPane1 = new javax.swing.JDesktopPane();
@@ -70,6 +72,17 @@ public class FrameMain extends javax.swing.JFrame {
                }
           });
           jToolBar1.add(jButton2);
+
+          jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ic/Discount-32.png"))); // NOI18N
+          jButton3.setFocusable(false);
+          jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+          jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+          jButton3.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jButton3ActionPerformed(evt);
+               }
+          });
+          jToolBar1.add(jButton3);
 
           getContentPane().add(jToolBar1, java.awt.BorderLayout.PAGE_START);
 
@@ -138,9 +151,30 @@ public class FrameMain extends javax.swing.JFrame {
 		}
      }//GEN-LAST:event_jButton2ActionPerformed
 
+     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+          for(JInternalFrame frame : this.jDesktopPane1.getAllFrames()){
+			if(frame instanceof FrameItemDiscounts){
+				frame.moveToFront();
+				return;
+			}
+		}
+		
+		FrameItemDiscounts frame = new FrameItemDiscounts();
+		jDesktopPane1.add(frame);
+		frame.setVisible(true);
+		
+		try {
+			frame.setMaximum(true);
+		} 
+		catch (PropertyVetoException ex) {
+			Logger.getLogger(FrameMain.class.getName()).log(Level.SEVERE, null, ex);
+		}
+     }//GEN-LAST:event_jButton3ActionPerformed
+
      // Variables declaration - do not modify//GEN-BEGIN:variables
      private javax.swing.JButton jButton1;
      private javax.swing.JButton jButton2;
+     private javax.swing.JButton jButton3;
      private javax.swing.JDesktopPane jDesktopPane1;
      private javax.swing.JLabel jLabel1;
      private javax.swing.JPanel jPanel1;

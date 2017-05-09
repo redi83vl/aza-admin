@@ -3,50 +3,51 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.redis.pos.aza.admin.gui.items;
+package com.redis.pos.aza.admin.gui.itemdiscounts;
 
-import com.redis.pos.aza.admin.controllers.ItemJpaController;
-import com.redis.pos.aza.admin.entities.Item;
+import com.redis.pos.aza.admin.controllers.ItemDiscountJpaController;
+import com.redis.pos.aza.admin.entities.ItemDiscount;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.event.TreeModelListener;
 import javax.swing.table.TableModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
  * @author Redjan Shabani info@redis.com.al
  */
-public class TableModelItems implements TableModel{
-
-	private final List<TableModelListener> listeners;
-	private List<Item> items;
+public class TableModelItemDiscounts implements TableModel{
 	
-	public TableModelItems(){
+	private final List<TableModelListener> listeners;
+	private ItemDiscount[] items;
+
+	public TableModelItemDiscounts() {
 		this.listeners = new ArrayList<>();
-		this.items = new ArrayList<>();
+		items = new ItemDiscount[0];
 	}
 	
 	public void reload(){
-		this.items = ItemJpaController.getInstance().findItemEntities();
+		ItemDiscountJpaController controller = ItemDiscountJpaController.getInstance();
+		List<ItemDiscount> itemsList= controller.findItemDiscountEntities();
 		
-		this.listeners.forEach(listener -> {
-			listener.tableChanged(new TableModelEvent(this));
-		});
+		this.items = itemsList.toArray(new ItemDiscount[itemsList.size()]);
+		
+		this.listeners.forEach(listener -> { listener.tableChanged(new TableModelEvent(this));});
 	}
 	
-	public Item getItem(int index){
-		return this.items.get(index);
-	}
-	
+
 	@Override
 	public int getRowCount() {
-		return this.items.size();
+		return this.items.length;
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 8;
+		return 7;
 	}
 
 	@Override
@@ -55,11 +56,10 @@ public class TableModelItems implements TableModel{
 			case 0: return "Kodi";
 			case 1: return "Kategoria";
 			case 2: return "Pershkrimi";
-			case 3: return "Fornitori";
-			case 4: return "Kostoja";
-			case 5: return "Cmimi";
-			case 6: return "Oferta";
-			case 7: return "Sasia";
+			case 3: return "Cmimi";
+			case 4: return "Oferta";
+			case 5: return "% Ulja";
+			case 6: return "Data/Ora";
 			default: return "";
 		}
 	}
@@ -73,8 +73,7 @@ public class TableModelItems implements TableModel{
 			case 3: return String.class;
 			case 4: return Double.class;
 			case 5: return Double.class;
-			case 6: return Double.class;
-			case 7: return Double.class;
+			case 6: return String.class;
 			default: return Object.class;
 		}
 	}
@@ -89,7 +88,6 @@ public class TableModelItems implements TableModel{
 			case 4: return Boolean.FALSE;
 			case 5: return Boolean.FALSE;
 			case 6: return Boolean.FALSE;
-			case 7: return Boolean.FALSE;
 			default: return Boolean.FALSE;
 		}
 		
@@ -97,16 +95,15 @@ public class TableModelItems implements TableModel{
 
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		Item item = this.items.get(rowIndex);
+		ItemDiscount item = this.items[rowIndex];
 		switch(columnIndex){
 			case 0: return item.getCode();
 			case 1: return item.getCategory();
 			case 2: return item.getDescription();
-			case 3: return item.getSupplier();
-			case 4: return item.getCost();
-			case 5: return item.getPrice0();
-			case 6: return item.getPrice1();
-			case 7: return item.getQuantity();
+			case 3: return item.getPrice0();
+			case 4: return item.getPrice1();
+			case 5: return item.getDiscount();
+			case 6: return item.getUpdated();
 			default: return null;
 		}
 	}
@@ -125,5 +122,4 @@ public class TableModelItems implements TableModel{
 	public void removeTableModelListener(TableModelListener l) {
 		this.listeners.remove(l);
 	}
-	
 }

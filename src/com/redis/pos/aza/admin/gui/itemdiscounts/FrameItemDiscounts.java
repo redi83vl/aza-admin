@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.redis.pos.aza.admin.gui.items;
+package com.redis.pos.aza.admin.gui.itemdiscounts;
+
+import com.redis.pos.aza.admin.gui.items.*;
 
 /**
  *
  * @author Redjan Shabani info@redis.com.al
  */
-public class FrameItems extends javax.swing.JInternalFrame {
+public class FrameItemDiscounts extends javax.swing.JInternalFrame {
 	
-	public FrameItems() {
+	public FrameItemDiscounts() {
 		initComponents();
 	}
 	
@@ -19,24 +21,22 @@ public class FrameItems extends javax.swing.JInternalFrame {
 		this.jTable1.packColumn(0, 100);
 		this.jTable1.packColumn(1, 200);
 		this.jTable1.packColumn(2, 500);
-		this.jTable1.packColumn(3, 200);
+		this.jTable1.packColumn(3, 100);
 		this.jTable1.packColumn(4, 100);
 		this.jTable1.packColumn(5, 100);
 		this.jTable1.packColumn(6, 100);
-		this.jTable1.packColumn(7, 100);
 	}
 	
 	private void applyCellRenderer(){
 		
+		this.jTable1.getColumn(3).setCellRenderer(new TableCellRendererPrice());
 		this.jTable1.getColumn(4).setCellRenderer(new TableCellRendererPrice());
-		this.jTable1.getColumn(5).setCellRenderer(new TableCellRendererPrice());
-		this.jTable1.getColumn(6).setCellRenderer(new TableCellRendererPrice());
 		
 		
 	}
 	
 	private void reload(){
-		this.tableModelItems1.reload();
+		this.tableModel.reload();
 		this.resizeColumns();
 		this.applyCellRenderer();		
 	}
@@ -45,9 +45,8 @@ public class FrameItems extends javax.swing.JInternalFrame {
      // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
      private void initComponents() {
 
-          tableModelItems1 = new com.redis.pos.aza.admin.gui.items.TableModelItems();
-          jPanel2 = new javax.swing.JPanel();
           buttonGroup1 = new javax.swing.ButtonGroup();
+          tableModel = new com.redis.pos.aza.admin.gui.itemdiscounts.TableModelItemDiscounts();
           jPanel4 = new javax.swing.JPanel();
           jPanel5 = new javax.swing.JPanel();
           jScrollPane1 = new javax.swing.JScrollPane();
@@ -57,12 +56,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
           comboCategories = new javax.swing.JComboBox<>();
           filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
           jSeparator4 = new javax.swing.JToolBar.Separator();
-          filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
-          jLabel2 = new javax.swing.JLabel();
-          comboSupplier = new javax.swing.JComboBox<>();
           filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
-          jSeparator1 = new javax.swing.JToolBar.Separator();
-          filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
           jLabel3 = new javax.swing.JLabel();
           jRadioButton1 = new javax.swing.JRadioButton();
           jRadioButton2 = new javax.swing.JRadioButton();
@@ -79,17 +73,6 @@ public class FrameItems extends javax.swing.JInternalFrame {
           filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
           jButton4 = new javax.swing.JButton();
           jButton3 = new javax.swing.JButton();
-
-          javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-          jPanel2.setLayout(jPanel2Layout);
-          jPanel2Layout.setHorizontalGroup(
-               jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGap(0, 877, Short.MAX_VALUE)
-          );
-          jPanel2Layout.setVerticalGroup(
-               jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGap(0, 100, Short.MAX_VALUE)
-          );
 
           setClosable(true);
           setIconifiable(true);
@@ -118,7 +101,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
           jPanel5.setLayout(new java.awt.BorderLayout());
 
-          jTable1.setModel(tableModelItems1);
+          jTable1.setModel(tableModel);
           jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
           jTable1.setRowHeight(25);
           jScrollPane1.setViewportView(jTable1);
@@ -148,27 +131,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jToolBar2.add(comboCategories);
           jToolBar2.add(filler9);
           jToolBar2.add(jSeparator4);
-          jToolBar2.add(filler3);
-
-          jLabel2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-          jLabel2.setText("Fornitori:");
-          jToolBar2.add(jLabel2);
-
-          comboSupplier.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-          comboSupplier.setMaximumRowCount(25);
-          comboSupplier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-          comboSupplier.setMaximumSize(new java.awt.Dimension(200, 19));
-          comboSupplier.setMinimumSize(new java.awt.Dimension(200, 19));
-          comboSupplier.setPreferredSize(new java.awt.Dimension(200, 19));
-          comboSupplier.addItemListener(new java.awt.event.ItemListener() {
-               public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                    comboSupplierItemStateChanged(evt);
-               }
-          });
-          jToolBar2.add(comboSupplier);
           jToolBar2.add(filler5);
-          jToolBar2.add(jSeparator1);
-          jToolBar2.add(filler2);
 
           jLabel3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
           jLabel3.setText("Sasia:");
@@ -291,10 +254,6 @@ public class FrameItems extends javax.swing.JInternalFrame {
           this.jButton1ActionPerformed(null);
      }//GEN-LAST:event_formInternalFrameOpened
 
-     private void comboSupplierItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSupplierItemStateChanged
-         
-     }//GEN-LAST:event_comboSupplierItemStateChanged
-
      private void comboCategoriesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboCategoriesItemStateChanged
           // TODO add your handling code here:
      }//GEN-LAST:event_comboCategoriesItemStateChanged
@@ -303,10 +262,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
      // Variables declaration - do not modify//GEN-BEGIN:variables
      private javax.swing.ButtonGroup buttonGroup1;
      private javax.swing.JComboBox<String> comboCategories;
-     private javax.swing.JComboBox<String> comboSupplier;
      private javax.swing.Box.Filler filler1;
-     private javax.swing.Box.Filler filler2;
-     private javax.swing.Box.Filler filler3;
      private javax.swing.Box.Filler filler4;
      private javax.swing.Box.Filler filler5;
      private javax.swing.Box.Filler filler6;
@@ -316,11 +272,8 @@ public class FrameItems extends javax.swing.JInternalFrame {
      private javax.swing.JButton jButton1;
      private javax.swing.JButton jButton3;
      private javax.swing.JButton jButton4;
-     private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel3;
      private javax.swing.JLabel jLabel4;
-     private javax.swing.JPanel jPanel2;
-     private javax.swing.JPanel jPanel3;
      private javax.swing.JPanel jPanel4;
      private javax.swing.JPanel jPanel5;
      private javax.swing.JRadioButton jRadioButton1;
@@ -328,13 +281,12 @@ public class FrameItems extends javax.swing.JInternalFrame {
      private javax.swing.JRadioButton jRadioButton3;
      private javax.swing.JRadioButton jRadioButton4;
      private javax.swing.JScrollPane jScrollPane1;
-     private javax.swing.JToolBar.Separator jSeparator1;
      private javax.swing.JToolBar.Separator jSeparator4;
      private org.jdesktop.swingx.JXTable jTable1;
      private javax.swing.JToolBar jToolBar1;
      private javax.swing.JToolBar jToolBar2;
      private javax.swing.JToolBar jToolBar3;
      private org.jdesktop.swingx.JXSearchField jXSearchField2;
-     private com.redis.pos.aza.admin.gui.items.TableModelItems tableModelItems1;
+     private com.redis.pos.aza.admin.gui.itemdiscounts.TableModelItemDiscounts tableModel;
      // End of variables declaration//GEN-END:variables
 }

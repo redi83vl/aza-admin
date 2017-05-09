@@ -24,6 +24,8 @@ public class TableCellRendererPrice extends DefaultTableCellRenderer{
 
 	public TableCellRendererPrice() {
 		this.priceFormat = NumberFormat.getInstance();
+		this.priceFormat.setMinimumFractionDigits(2);
+		this.priceFormat.setMaximumFractionDigits(2);
 		
 		this.percFormat = NumberFormat.getPercentInstance();
 		this.percFormat.setMaximumFractionDigits(0);
@@ -45,48 +47,15 @@ public class TableCellRendererPrice extends DefaultTableCellRenderer{
 			label.setForeground(table.getForeground());
 		}
 		
-		if(table.getModel() instanceof TableModelItems){
-			TableModelItems model = (TableModelItems) table.getModel();
-			Item item = model.getItem(row);
-			
-			if(column == 4){//cmimi
-				this.priceFormat.setMinimumFractionDigits(2);
-				this.priceFormat.setMaximumFractionDigits(2);
-				
-				if(item.getCost()== null || item.getCost()<=1)
-					label.setText("");
-				else
-					label.setText(this.priceFormat.format(item.getCost()));
-			}
-			
-			if(column == 5){//cmimi
-				this.priceFormat.setMinimumFractionDigits(0);
-				this.priceFormat.setMaximumFractionDigits(0);
-				
-				if(item.getPrice0() == null || item.getPrice0()<=1)
-					label.setText("");
-				else
-					label.setText(this.priceFormat.format(item.getPrice0()));
-			}
-			
-			if(column == 6){//cmimi
-				this.priceFormat.setMinimumFractionDigits(0);
-				this.priceFormat.setMaximumFractionDigits(0);
-				
-				if(item.getPrice1() == null || item.getPrice1()<=1)
-					label.setText("");
-				else{
-					label.setText( 
-						this.priceFormat.format(item.getPrice1()) + 
-						" (" + this.percFormat.format((item.getPrice0() - item.getPrice1()) / item.getPrice0() )  + ")"
-					);
-				}
-			}
+		if(value instanceof Double){
+			Double price = (Double) value;
+			if(price <= 1)
+				label.setText("");
+			else
+				label.setText(this.priceFormat.format(price));
 			
 			label.setHorizontalAlignment(JLabel.RIGHT);
 		}
-		
-		
 		
 		return label;
 	}

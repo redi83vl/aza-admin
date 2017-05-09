@@ -20,22 +20,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Redjan Shabani info@redis.com.al
  */
 @Entity
-@Table(name = "Item")
+@Table(name = "ItemDiscount")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
-	, @NamedQuery(name = "Item.findById", query = "SELECT i FROM Item i WHERE i.id = :id")
-	, @NamedQuery(name = "Item.findByCode", query = "SELECT i FROM Item i WHERE i.code = :code")
-	, @NamedQuery(name = "Item.findByCategory", query = "SELECT i FROM Item i WHERE i.category = :category")
-	, @NamedQuery(name = "Item.findByType", query = "SELECT i FROM Item i WHERE i.type = :type")
-	, @NamedQuery(name = "Item.findByBrand", query = "SELECT i FROM Item i WHERE i.brand = :brand")
-	, @NamedQuery(name = "Item.findByModel", query = "SELECT i FROM Item i WHERE i.model = :model")
-	, @NamedQuery(name = "Item.findBySupplier", query = "SELECT i FROM Item i WHERE i.supplier = :supplier")})
-public class Item implements Serializable {
+	@NamedQuery(name = "ItemDiscount.findAll", query = "SELECT i FROM ItemDiscount i")
+	, @NamedQuery(name = "ItemDiscount.findById", query = "SELECT i FROM ItemDiscount i WHERE i.id = :id")
+	, @NamedQuery(name = "ItemDiscount.findByCode", query = "SELECT i FROM ItemDiscount i WHERE i.code = :code")
+	, @NamedQuery(name = "ItemDiscount.findByCategory", query = "SELECT i FROM ItemDiscount i WHERE i.category = :category")
+	, @NamedQuery(name = "ItemDiscount.findByType", query = "SELECT i FROM ItemDiscount i WHERE i.type = :type")
+	, @NamedQuery(name = "ItemDiscount.findByBrand", query = "SELECT i FROM ItemDiscount i WHERE i.brand = :brand")
+	, @NamedQuery(name = "ItemDiscount.findByModel", query = "SELECT i FROM ItemDiscount i WHERE i.model = :model")
+	, @NamedQuery(name = "ItemDiscount.findByUpdated", query = "SELECT i FROM ItemDiscount i WHERE i.updated = :updated")})
+public class ItemDiscount implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-
 	@Basic(optional = false)
      @Column(name = "id")
 	@Id
@@ -52,24 +50,17 @@ public class Item implements Serializable {
 	private String model;
 	@Column(name = "description")
 	private String description;
-	@Column(name = "supplier")
-	private String supplier;
-	@Column(name = "unit")
-	private String unit;
 	// @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-	@Column(name = "cost")
-	private Double cost;
 	@Column(name = "price0")
 	private Double price0;
 	@Column(name = "price1")
 	private Double price1;
+	@Column(name = "discount")
+	private Double discount;
 	@Column(name = "updated")
 	private String updated;
-	@Basic(optional = false)
-     @Column(name = "quantity")
-	private double quantity;
 
-	public Item() {
+	public ItemDiscount() {
 	}
 
 	public int getId() {
@@ -128,30 +119,6 @@ public class Item implements Serializable {
 		this.description = description;
 	}
 
-	public String getSupplier() {
-		return supplier;
-	}
-
-	public void setSupplier(String supplier) {
-		this.supplier = supplier;
-	}
-
-	public String getUnit() {
-		return unit;
-	}
-
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
-
-	public Double getCost() {
-		return cost;
-	}
-
-	public void setCost(Double cost) {
-		this.cost = cost;
-	}
-
 	public Double getPrice0() {
 		return price0;
 	}
@@ -168,24 +135,20 @@ public class Item implements Serializable {
 		this.price1 = price1;
 	}
 
+	public Double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
 	public String getUpdated() {
 		return updated;
 	}
 
 	public void setUpdated(String updated) {
 		this.updated = updated;
-	}
-
-	public double getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(double quantity) {
-		this.quantity = quantity;
-	}
-
-	public Object[] toArray() {
-		throw new UnsupportedOperationException("Not supported yet.");
 	}
 	
 }
