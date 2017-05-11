@@ -5,6 +5,20 @@
  */
 package com.redis.pos.aza.admin.gui.items;
 
+import java.awt.Cursor;
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.OrientationRequested;
+import javax.swing.JTable;
+import javax.swing.SwingWorker;
+
 /**
  *
  * @author Redjan Shabani info@redis.com.al
@@ -13,45 +27,77 @@ public class FrameItems extends javax.swing.JInternalFrame {
 	
 	public FrameItems() {
 		initComponents();
+		
+		resizeColumns();
+		applyCellRenderer();
 	}
 	
 	private void resizeColumns(){
-		this.jTable1.packColumn(0, 100);
-		this.jTable1.packColumn(1, 200);
-		this.jTable1.packColumn(2, 500);
-		this.jTable1.packColumn(3, 200);
-		this.jTable1.packColumn(4, 100);
-		this.jTable1.packColumn(5, 100);
-		this.jTable1.packColumn(6, 100);
-		this.jTable1.packColumn(7, 100);
+		this.table.packColumn(0, 100);
+		this.table.packColumn(1, 200);
+		this.table.packColumn(2, 500);
+		this.table.packColumn(3, 200);
+		this.table.packColumn(4, 100);
+		this.table.packColumn(5, 100);
+		this.table.packColumn(6, 100);
+		this.table.packColumn(7, 100);
 	}
 	
 	private void applyCellRenderer(){
-		
-		this.jTable1.getColumn(4).setCellRenderer(new TableCellRendererPrice());
-		this.jTable1.getColumn(5).setCellRenderer(new TableCellRendererPrice());
-		this.jTable1.getColumn(6).setCellRenderer(new TableCellRendererPrice());
-		
-		
+		this.table.getColumn(4).setCellRenderer(new TableCellRendererPrice());
+		this.table.getColumn(5).setCellRenderer(new TableCellRendererPrice());
+		this.table.getColumn(6).setCellRenderer(new TableCellRendererPrice());
+	}
+	
+	private void applyRowFilter(){		
+		this.table.setRowFilter(rowFilter);
+		this.labelCounter.setText(this.table.getRowCount() + "");
 	}
 	
 	private void reload(){
+		
 		this.tableModelItems1.reload();
-		this.resizeColumns();
-		this.applyCellRenderer();		
+		this.comboBoxModelCategories1.reload();
+		this.comboBoxModelSuppliers1.reload();
+		
+		this.labelCounter.setText(this.table.getRowCount() + "");
 	}
+	
+	private void beforeReloadStarted(){
+		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		jProgressBar1.setVisible(true);
+		jButton1.setEnabled(false);
+		jButton3.setEnabled(false);
+		jButton4.setEnabled(false);
+		
+		this.tableModelItems1.clear();
+		this.comboBoxModelCategories1.clear();
+		this.comboBoxModelSuppliers1.clear();
+		
+	}
+	
+	private void afterReloadFinished(){
+		jButton1.setEnabled(true);
+		jButton3.setEnabled(true);
+		jButton4.setEnabled(true);
+		
+		jProgressBar1.setVisible(false);
+		this.setCursor(Cursor.getDefaultCursor());
+	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
      // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
      private void initComponents() {
 
           tableModelItems1 = new com.redis.pos.aza.admin.gui.items.TableModelItems();
-          jPanel2 = new javax.swing.JPanel();
           buttonGroup1 = new javax.swing.ButtonGroup();
+          comboBoxModelCategories1 = new com.redis.pos.aza.admin.gui.items.ComboBoxModelCategories();
+          comboBoxModelSuppliers1 = new com.redis.pos.aza.admin.gui.items.ComboBoxModelSuppliers();
+          rowFilter = new com.redis.pos.aza.admin.gui.items.RowFilterItems();
           jPanel4 = new javax.swing.JPanel();
           jPanel5 = new javax.swing.JPanel();
-          jScrollPane1 = new javax.swing.JScrollPane();
-          jTable1 = new org.jdesktop.swingx.JXTable();
           jToolBar2 = new javax.swing.JToolBar();
           jLabel4 = new javax.swing.JLabel();
           comboCategories = new javax.swing.JComboBox<>();
@@ -69,27 +115,48 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jRadioButton3 = new javax.swing.JRadioButton();
           jRadioButton4 = new javax.swing.JRadioButton();
           filler7 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
-          filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+          jSeparator2 = new javax.swing.JToolBar.Separator();
+          filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+          filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
+          labelCounter = new javax.swing.JLabel();
           jToolBar3 = new javax.swing.JToolBar();
           filler6 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
           jXSearchField2 = new org.jdesktop.swingx.JXSearchField();
           filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+          jScrollPane2 = new javax.swing.JScrollPane();
+          table = new org.jdesktop.swingx.JXTable();
           jToolBar1 = new javax.swing.JToolBar();
           jButton1 = new javax.swing.JButton();
+          jProgressBar1 = new javax.swing.JProgressBar();
           filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
           jButton4 = new javax.swing.JButton();
           jButton3 = new javax.swing.JButton();
 
-          javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-          jPanel2.setLayout(jPanel2Layout);
-          jPanel2Layout.setHorizontalGroup(
-               jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGap(0, 877, Short.MAX_VALUE)
-          );
-          jPanel2Layout.setVerticalGroup(
-               jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-               .addGap(0, 100, Short.MAX_VALUE)
-          );
+          tableModelItems1.addTableModelListener(new javax.swing.event.TableModelListener() {
+               public void tableChanged(javax.swing.event.TableModelEvent evt) {
+                    tableModelItems1TableChanged(evt);
+               }
+          });
+
+          comboBoxModelCategories1.addListDataListener(new javax.swing.event.ListDataListener() {
+               public void intervalRemoved(javax.swing.event.ListDataEvent evt) {
+               }
+               public void contentsChanged(javax.swing.event.ListDataEvent evt) {
+                    comboBoxModelCategories1ContentsChanged(evt);
+               }
+               public void intervalAdded(javax.swing.event.ListDataEvent evt) {
+               }
+          });
+
+          comboBoxModelSuppliers1.addListDataListener(new javax.swing.event.ListDataListener() {
+               public void intervalRemoved(javax.swing.event.ListDataEvent evt) {
+               }
+               public void contentsChanged(javax.swing.event.ListDataEvent evt) {
+                    comboBoxModelSuppliers1ContentsChanged(evt);
+               }
+               public void intervalAdded(javax.swing.event.ListDataEvent evt) {
+               }
+          });
 
           setClosable(true);
           setIconifiable(true);
@@ -118,15 +185,6 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
           jPanel5.setLayout(new java.awt.BorderLayout());
 
-          jTable1.setModel(tableModelItems1);
-          jTable1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-          jTable1.setRowHeight(25);
-          jScrollPane1.setViewportView(jTable1);
-          this.resizeColumns();
-          this.applyCellRenderer();
-
-          jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
           jToolBar2.setFloatable(false);
           jToolBar2.setRollover(true);
 
@@ -136,7 +194,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
 
           comboCategories.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
           comboCategories.setMaximumRowCount(25);
-          comboCategories.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+          comboCategories.setModel(comboBoxModelCategories1);
           comboCategories.setMaximumSize(new java.awt.Dimension(200, 19));
           comboCategories.setMinimumSize(new java.awt.Dimension(200, 19));
           comboCategories.setPreferredSize(new java.awt.Dimension(200, 19));
@@ -156,7 +214,7 @@ public class FrameItems extends javax.swing.JInternalFrame {
 
           comboSupplier.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
           comboSupplier.setMaximumRowCount(25);
-          comboSupplier.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+          comboSupplier.setModel(comboBoxModelSuppliers1);
           comboSupplier.setMaximumSize(new java.awt.Dimension(200, 19));
           comboSupplier.setMinimumSize(new java.awt.Dimension(200, 19));
           comboSupplier.setPreferredSize(new java.awt.Dimension(200, 19));
@@ -181,6 +239,11 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jRadioButton1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
           jRadioButton1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
           jRadioButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+          jRadioButton1.addItemListener(new java.awt.event.ItemListener() {
+               public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                    jRadioButton1ItemStateChanged(evt);
+               }
+          });
           jToolBar2.add(jRadioButton1);
 
           buttonGroup1.add(jRadioButton2);
@@ -190,6 +253,11 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jRadioButton2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
           jRadioButton2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
           jRadioButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+          jRadioButton2.addItemListener(new java.awt.event.ItemListener() {
+               public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                    jRadioButton2ItemStateChanged(evt);
+               }
+          });
           jToolBar2.add(jRadioButton2);
 
           buttonGroup1.add(jRadioButton3);
@@ -199,6 +267,11 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jRadioButton3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
           jRadioButton3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
           jRadioButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+          jRadioButton3.addItemListener(new java.awt.event.ItemListener() {
+               public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                    jRadioButton3ItemStateChanged(evt);
+               }
+          });
           jToolBar2.add(jRadioButton3);
 
           buttonGroup1.add(jRadioButton4);
@@ -209,12 +282,23 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jRadioButton4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
           jRadioButton4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
           jRadioButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+          jRadioButton4.addItemListener(new java.awt.event.ItemListener() {
+               public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                    jRadioButton4ItemStateChanged(evt);
+               }
+          });
           jToolBar2.add(jRadioButton4);
           jToolBar2.add(filler7);
-          jToolBar2.add(filler4);
+          jToolBar2.add(jSeparator2);
+          jToolBar2.add(filler10);
+          jToolBar2.add(filler12);
+
+          labelCounter.setText("0");
+          jToolBar2.add(labelCounter);
 
           jPanel5.add(jToolBar2, java.awt.BorderLayout.PAGE_START);
 
+          jToolBar3.setFloatable(false);
           jToolBar3.setRollover(true);
           jToolBar3.add(filler6);
 
@@ -224,10 +308,21 @@ public class FrameItems extends javax.swing.JInternalFrame {
           jXSearchField2.setMaximumSize(new java.awt.Dimension(244, 24));
           jXSearchField2.setMinimumSize(new java.awt.Dimension(244, 24));
           jXSearchField2.setName(""); // NOI18N
+          jXSearchField2.addActionListener(new java.awt.event.ActionListener() {
+               public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    jXSearchField2ActionPerformed(evt);
+               }
+          });
           jToolBar3.add(jXSearchField2);
           jToolBar3.add(filler8);
 
           jPanel5.add(jToolBar3, java.awt.BorderLayout.PAGE_END);
+
+          table.setModel(tableModelItems1);
+          table.setSortable(false);
+          jScrollPane2.setViewportView(table);
+
+          jPanel5.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
           jPanel4.add(jPanel5, java.awt.BorderLayout.CENTER);
 
@@ -246,6 +341,10 @@ public class FrameItems extends javax.swing.JInternalFrame {
                }
           });
           jToolBar1.add(jButton1);
+
+          jProgressBar1.setIndeterminate(true);
+          jProgressBar1.setMaximumSize(new java.awt.Dimension(350, 16));
+          jToolBar1.add(jProgressBar1);
           jToolBar1.add(filler1);
 
           jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ic/excel_24.png"))); // NOI18N
@@ -276,7 +375,21 @@ public class FrameItems extends javax.swing.JInternalFrame {
      }// </editor-fold>//GEN-END:initComponents
 
      private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          this.reload();
+          beforeReloadStarted();
+		SwingWorker<Void,Integer> worker = new SwingWorker<Void,Integer>() {
+			@Override
+			protected Void doInBackground() throws Exception {
+				reload();
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				afterReloadFinished();
+			}
+		};
+		
+		worker.execute();
      }//GEN-LAST:event_jButton1ActionPerformed
 
      private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -284,7 +397,23 @@ public class FrameItems extends javax.swing.JInternalFrame {
      }//GEN-LAST:event_jButton4ActionPerformed
 
      private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-          // TODO add your handling code here:
+          
+		try {
+			JTable.PrintMode printMode = JTable.PrintMode.FIT_WIDTH;
+			MessageFormat headerFormat = new MessageFormat("");
+			MessageFormat footerFormat = new MessageFormat("");
+			boolean showPrintDialog = true;
+			
+			PrintRequestAttributeSet printRequestAttributeSet = new HashPrintRequestAttributeSet();
+			printRequestAttributeSet.add(OrientationRequested.LANDSCAPE);
+			
+			boolean interactive = true;
+			
+			this.table.print(printMode, headerFormat, footerFormat, showPrintDialog, printRequestAttributeSet, interactive);
+		} 
+		catch (PrinterException | HeadlessException ex) {
+			Logger.getLogger(FrameItems.class.getName()).log(Level.SEVERE, null, ex);
+		}
      }//GEN-LAST:event_jButton3ActionPerformed
 
      private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
@@ -292,22 +421,73 @@ public class FrameItems extends javax.swing.JInternalFrame {
      }//GEN-LAST:event_formInternalFrameOpened
 
      private void comboSupplierItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSupplierItemStateChanged
-         
+		this.rowFilter.includeSupplier((String) this.comboBoxModelSuppliers1.getSelectedItem());
+		this.applyRowFilter();
      }//GEN-LAST:event_comboSupplierItemStateChanged
 
      private void comboCategoriesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboCategoriesItemStateChanged
-          // TODO add your handling code here:
+          this.rowFilter.includeCategory((String) this.comboBoxModelCategories1.getSelectedItem());
+		this.applyRowFilter();
      }//GEN-LAST:event_comboCategoriesItemStateChanged
+
+     private void jRadioButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButton1ItemStateChanged
+          if(evt.getStateChange() == ItemEvent.SELECTED){
+			this.rowFilter.includeNegativeQuantites();
+			this.applyRowFilter();
+		}
+     }//GEN-LAST:event_jRadioButton1ItemStateChanged
+
+     private void jRadioButton2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButton2ItemStateChanged
+          if(evt.getStateChange() == ItemEvent.SELECTED){
+			this.rowFilter.includeZeroQuantites();
+			this.applyRowFilter();
+		}
+     }//GEN-LAST:event_jRadioButton2ItemStateChanged
+
+     private void jRadioButton3ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButton3ItemStateChanged
+          if(evt.getStateChange() == ItemEvent.SELECTED){
+			this.rowFilter.includePositiveQuantites();
+			this.applyRowFilter();
+		}
+     }//GEN-LAST:event_jRadioButton3ItemStateChanged
+
+     private void jRadioButton4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButton4ItemStateChanged
+          if(evt.getStateChange() == ItemEvent.SELECTED){
+			this.rowFilter.includeAllQuantites();
+			this.applyRowFilter();
+		}
+     }//GEN-LAST:event_jRadioButton4ItemStateChanged
+
+     private void jXSearchField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXSearchField2ActionPerformed
+          this.rowFilter.includeDescription(this.jXSearchField2.getText());
+		this.applyRowFilter();
+     }//GEN-LAST:event_jXSearchField2ActionPerformed
+
+     private void comboBoxModelCategories1ContentsChanged(javax.swing.event.ListDataEvent evt) {//GEN-FIRST:event_comboBoxModelCategories1ContentsChanged
+          comboCategories.setEnabled(comboBoxModelCategories1.getSize() > 1);
+     }//GEN-LAST:event_comboBoxModelCategories1ContentsChanged
+
+     private void comboBoxModelSuppliers1ContentsChanged(javax.swing.event.ListDataEvent evt) {//GEN-FIRST:event_comboBoxModelSuppliers1ContentsChanged
+          comboSupplier.setEnabled(comboBoxModelSuppliers1.getSize() > 1);
+     }//GEN-LAST:event_comboBoxModelSuppliers1ContentsChanged
+
+     private void tableModelItems1TableChanged(javax.swing.event.TableModelEvent evt) {//GEN-FIRST:event_tableModelItems1TableChanged
+          jXSearchField2.setText("");
+		jXSearchField2.setEditable(tableModelItems1.getRowCount() > 0);
+     }//GEN-LAST:event_tableModelItems1TableChanged
 
 
      // Variables declaration - do not modify//GEN-BEGIN:variables
      private javax.swing.ButtonGroup buttonGroup1;
+     private com.redis.pos.aza.admin.gui.items.ComboBoxModelCategories comboBoxModelCategories1;
+     private com.redis.pos.aza.admin.gui.items.ComboBoxModelSuppliers comboBoxModelSuppliers1;
      private javax.swing.JComboBox<String> comboCategories;
      private javax.swing.JComboBox<String> comboSupplier;
      private javax.swing.Box.Filler filler1;
+     private javax.swing.Box.Filler filler10;
+     private javax.swing.Box.Filler filler12;
      private javax.swing.Box.Filler filler2;
      private javax.swing.Box.Filler filler3;
-     private javax.swing.Box.Filler filler4;
      private javax.swing.Box.Filler filler5;
      private javax.swing.Box.Filler filler6;
      private javax.swing.Box.Filler filler7;
@@ -319,22 +499,24 @@ public class FrameItems extends javax.swing.JInternalFrame {
      private javax.swing.JLabel jLabel2;
      private javax.swing.JLabel jLabel3;
      private javax.swing.JLabel jLabel4;
-     private javax.swing.JPanel jPanel2;
-     private javax.swing.JPanel jPanel3;
      private javax.swing.JPanel jPanel4;
      private javax.swing.JPanel jPanel5;
+     private javax.swing.JProgressBar jProgressBar1;
      private javax.swing.JRadioButton jRadioButton1;
      private javax.swing.JRadioButton jRadioButton2;
      private javax.swing.JRadioButton jRadioButton3;
      private javax.swing.JRadioButton jRadioButton4;
-     private javax.swing.JScrollPane jScrollPane1;
+     private javax.swing.JScrollPane jScrollPane2;
      private javax.swing.JToolBar.Separator jSeparator1;
+     private javax.swing.JToolBar.Separator jSeparator2;
      private javax.swing.JToolBar.Separator jSeparator4;
-     private org.jdesktop.swingx.JXTable jTable1;
      private javax.swing.JToolBar jToolBar1;
      private javax.swing.JToolBar jToolBar2;
      private javax.swing.JToolBar jToolBar3;
      private org.jdesktop.swingx.JXSearchField jXSearchField2;
+     private javax.swing.JLabel labelCounter;
+     private com.redis.pos.aza.admin.gui.items.RowFilterItems rowFilter;
+     private org.jdesktop.swingx.JXTable table;
      private com.redis.pos.aza.admin.gui.items.TableModelItems tableModelItems1;
      // End of variables declaration//GEN-END:variables
 }

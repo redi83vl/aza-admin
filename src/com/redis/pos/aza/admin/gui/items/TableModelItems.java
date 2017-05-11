@@ -8,6 +8,7 @@ package com.redis.pos.aza.admin.gui.items;
 import com.redis.pos.aza.admin.controllers.ItemJpaController;
 import com.redis.pos.aza.admin.entities.Item;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -27,8 +28,17 @@ public class TableModelItems implements TableModel{
 		this.items = new ArrayList<>();
 	}
 	
+	void clear() {
+		this.items = new ArrayList<>();
+		
+		this.listeners.forEach(listener -> {
+			listener.tableChanged(new TableModelEvent(this));
+		});
+	}
+	
 	public void reload(){
 		this.items = ItemJpaController.getInstance().findItemEntities();
+		this.items.sort((Item o1, Item o2) -> o1.getCode().compareTo(o2.getCode()));
 		
 		this.listeners.forEach(listener -> {
 			listener.tableChanged(new TableModelEvent(this));
@@ -125,5 +135,7 @@ public class TableModelItems implements TableModel{
 	public void removeTableModelListener(TableModelListener l) {
 		this.listeners.remove(l);
 	}
+
+	
 	
 }

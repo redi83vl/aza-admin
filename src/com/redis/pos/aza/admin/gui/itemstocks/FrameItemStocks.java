@@ -96,12 +96,14 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
           jToolBar1.add(filler1);
 
           jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ic/excel_24.png"))); // NOI18N
+          jButton4.setEnabled(false);
           jButton4.setFocusable(false);
           jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
           jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
           jToolBar1.add(jButton4);
 
           jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/ic/print_24.png"))); // NOI18N
+          jButton3.setEnabled(false);
           jButton3.setFocusable(false);
           jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
           jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -125,6 +127,7 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
           jXSearchField1.setColumns(25);
           jXSearchField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
           jXSearchField1.setToolTipText("Kerko ...");
+          jXSearchField1.setEnabled(false);
           jXSearchField1.setPrompt("Kerko ...");
           jXSearchField1.addActionListener(new java.awt.event.ActionListener() {
                public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,6 +148,7 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
           comboSupplier2.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
           comboSupplier2.setMaximumRowCount(25);
           comboSupplier2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+          comboSupplier2.setEnabled(false);
           comboSupplier2.setMaximumSize(new java.awt.Dimension(200, 19));
           comboSupplier2.setMinimumSize(new java.awt.Dimension(200, 19));
           comboSupplier2.setPreferredSize(new java.awt.Dimension(200, 19));
@@ -184,46 +188,16 @@ public class FrameItemStocks extends javax.swing.JInternalFrame {
 
 
      // Variables declaration - do not modify//GEN-BEGIN:variables
-     private javax.swing.JComboBox<String> comboSupplier;
-     private javax.swing.JComboBox<String> comboSupplier1;
      private javax.swing.JComboBox<String> comboSupplier2;
      private javax.swing.Box.Filler filler1;
-     private javax.swing.Box.Filler filler10;
-     private javax.swing.Box.Filler filler2;
-     private javax.swing.Box.Filler filler3;
-     private javax.swing.Box.Filler filler5;
-     private javax.swing.Box.Filler filler6;
-     private javax.swing.Box.Filler filler7;
-     private javax.swing.Box.Filler filler8;
-     private javax.swing.Box.Filler filler9;
      private javax.swing.JButton jButton1;
      private javax.swing.JButton jButton3;
      private javax.swing.JButton jButton4;
-     private javax.swing.JLabel jLabel1;
-     private javax.swing.JLabel jLabel2;
-     private javax.swing.JLabel jLabel3;
-     private javax.swing.JLabel jLabel4;
-     private javax.swing.JLabel jLabel5;
-     private javax.swing.JLabel jLabel6;
      private javax.swing.JLabel jLabel7;
      private javax.swing.JPanel jPanel1;
      private javax.swing.JPanel jPanel5;
-     private javax.swing.JRadioButton jRadioButton1;
-     private javax.swing.JRadioButton jRadioButton2;
-     private javax.swing.JRadioButton jRadioButton3;
-     private javax.swing.JRadioButton jRadioButton4;
-     private javax.swing.JRadioButton jRadioButton5;
-     private javax.swing.JRadioButton jRadioButton6;
-     private javax.swing.JRadioButton jRadioButton7;
-     private javax.swing.JRadioButton jRadioButton8;
      private javax.swing.JScrollPane jScrollPane1;
-     private javax.swing.JToolBar.Separator jSeparator1;
-     private javax.swing.JToolBar.Separator jSeparator2;
-     private javax.swing.JToolBar.Separator jSeparator3;
-     private javax.swing.JToolBar.Separator jSeparator4;
      private javax.swing.JToolBar jToolBar1;
-     private javax.swing.JToolBar jToolBar2;
-     private javax.swing.JToolBar jToolBar3;
      private javax.swing.JToolBar jToolBar4;
      private org.jdesktop.swingx.JXSearchField jXSearchField1;
      private org.jdesktop.swingx.JXTable jXTable1;

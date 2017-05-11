@@ -23,7 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Item")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
+	  @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i ORDER BY i.code ASC")
+	, @NamedQuery(name = "Item.findAllCategories", query = "SELECT DISTINCT i.category FROM Item i ORDER BY i.category ASC")
 	, @NamedQuery(name = "Item.findById", query = "SELECT i FROM Item i WHERE i.id = :id")
 	, @NamedQuery(name = "Item.findByCode", query = "SELECT i FROM Item i WHERE i.code = :code")
 	, @NamedQuery(name = "Item.findByCategory", query = "SELECT i FROM Item i WHERE i.category = :category")

@@ -5,12 +5,15 @@
  */
 package com.redis.pos.aza.admin.controllers;
 
-import com.redis.pos.aza.admin.entities.Item;
+import com.redis.pos.aza.admin.controllers.exceptions.NonexistentEntityException;
+import com.redis.pos.aza.admin.controllers.exceptions.PreexistingEntityException;
+import com.redis.pos.aza.admin.entities.ItemPath;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -19,13 +22,13 @@ import javax.persistence.criteria.Root;
  *
  * @author Redjan Shabani info@redis.com.al
  */
-public class ItemJpaController implements Serializable {
-
-	public static ItemJpaController getInstance(){
-		return new ItemJpaController(Persistence.createEntityManagerFactory("aza-adminPU"));
-	}
+public class ItemPathJpaController implements Serializable {
 	
-	public ItemJpaController(EntityManagerFactory emf) {
+	public static ItemPathJpaController getInstance(){
+		return new ItemPathJpaController(Persistence.createEntityManagerFactory("aza-adminPU"));
+	}
+
+	public ItemPathJpaController(EntityManagerFactory emf) {
 		this.emf = emf;
 	}
 	private EntityManagerFactory emf = null;
@@ -33,43 +36,20 @@ public class ItemJpaController implements Serializable {
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
-	
-	public List<String> findItemCategories(){
-		EntityManager em = getEntityManager();
-		try{
-			Query query = em.createQuery("SELECT DISTINCT i.category FROM Item i ORDER BY i.category ASC");
-			return query.getResultList();
-		}
-		finally{
-			em.close();
-		}
-	}
-	
-	public List<String> findItemSuppliers(){
-		EntityManager em = getEntityManager();
-		try{
-			Query query = em.createQuery("SELECT DISTINCT i.supplier FROM Item i ORDER BY i.supplier ASC");
-			return query.getResultList();
-		}
-		finally{
-			em.close();
-		}
-		
+
+	public List<ItemPath> findItemPathEntities() {
+		return findItemPathEntities(true, -1, -1);
 	}
 
-	public List<Item> findItemEntities() {
-		return findItemEntities(true, -1, -1);
+	public List<ItemPath> findItemPathEntities(int maxResults, int firstResult) {
+		return findItemPathEntities(false, maxResults, firstResult);
 	}
 
-	public List<Item> findItemEntities(int maxResults, int firstResult) {
-		return findItemEntities(false, maxResults, firstResult);
-	}
-
-	private List<Item> findItemEntities(boolean all, int maxResults, int firstResult) {
+	private List<ItemPath> findItemPathEntities(boolean all, int maxResults, int firstResult) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-			cq.select(cq.from(Item.class));
+			cq.select(cq.from(ItemPath.class));
 			Query q = em.createQuery(cq);
 			if (!all) {
 				q.setMaxResults(maxResults);
@@ -81,20 +61,20 @@ public class ItemJpaController implements Serializable {
 		}
 	}
 
-	public Item findItem(int id) {
+	public ItemPath findItemPath(Integer id) {
 		EntityManager em = getEntityManager();
 		try {
-			return em.find(Item.class, id);
+			return em.find(ItemPath.class, id);
 		} finally {
 			em.close();
 		}
 	}
 
-	public int getItemCount() {
+	public int getItemPathCount() {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-			Root<Item> rt = cq.from(Item.class);
+			Root<ItemPath> rt = cq.from(ItemPath.class);
 			cq.select(em.getCriteriaBuilder().count(rt));
 			Query q = em.createQuery(cq);
 			return ((Long) q.getSingleResult()).intValue();
@@ -102,8 +82,5 @@ public class ItemJpaController implements Serializable {
 			em.close();
 		}
 	}
-
-	public void close() {
-		emf.close();
-	}
+	
 }

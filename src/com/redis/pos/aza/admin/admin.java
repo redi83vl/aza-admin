@@ -18,13 +18,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class admin {
 
 	public static void main(String args[]) {
-		try {
-			UIManager.setLookAndFeel(com.jtattoo.plaf.acryl.AcrylLookAndFeel.class.getName());
-		} 
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-			Logger.getLogger(admin.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		
 		java.awt.EventQueue.invokeLater(() -> {
 			new FrameMain().setVisible(true);
 		});

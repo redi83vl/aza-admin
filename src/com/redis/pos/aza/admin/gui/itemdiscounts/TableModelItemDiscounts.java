@@ -11,10 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.event.TreeModelListener;
 import javax.swing.table.TableModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
 
 /**
  *
@@ -39,6 +36,10 @@ public class TableModelItemDiscounts implements TableModel{
 		this.listeners.forEach(listener -> { listener.tableChanged(new TableModelEvent(this));});
 	}
 	
+	public ItemDiscount[] getItemDiscounts(){
+		return this.items;
+	}
+	
 
 	@Override
 	public int getRowCount() {
@@ -47,7 +48,7 @@ public class TableModelItemDiscounts implements TableModel{
 
 	@Override
 	public int getColumnCount() {
-		return 7;
+		return 10;
 	}
 
 	@Override
@@ -55,11 +56,14 @@ public class TableModelItemDiscounts implements TableModel{
 		switch(columnIndex){
 			case 0: return "Kodi";
 			case 1: return "Kategoria";
-			case 2: return "Pershkrimi";
-			case 3: return "Cmimi";
-			case 4: return "Oferta";
-			case 5: return "% Ulja";
-			case 6: return "Data/Ora";
+			case 2: return "Tipi";
+			case 3: return "Marka";
+			case 4: return "Modeli";
+			case 5: return "Pershkrimi";
+			case 6: return "Cmimi";
+			case 7: return "Oferta";
+			case 8: return "% Ulja";
+			case 9: return "Data/Ora";
 			default: return "";
 		}
 	}
@@ -71,9 +75,11 @@ public class TableModelItemDiscounts implements TableModel{
 			case 1: return String.class;
 			case 2: return String.class;
 			case 3: return String.class;
-			case 4: return Double.class;
-			case 5: return Double.class;
-			case 6: return String.class;
+			case 4: return String.class;
+			case 5: return String.class;
+			case 7: return Double.class;
+			case 8: return Double.class;
+			case 9: return String.class;
 			default: return Object.class;
 		}
 	}
@@ -81,13 +87,6 @@ public class TableModelItemDiscounts implements TableModel{
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		switch(columnIndex){
-			case 0: return Boolean.FALSE;
-			case 1: return Boolean.FALSE;
-			case 2: return Boolean.FALSE;
-			case 3: return Boolean.FALSE;
-			case 4: return Boolean.FALSE;
-			case 5: return Boolean.FALSE;
-			case 6: return Boolean.FALSE;
 			default: return Boolean.FALSE;
 		}
 		
@@ -99,11 +98,14 @@ public class TableModelItemDiscounts implements TableModel{
 		switch(columnIndex){
 			case 0: return item.getCode();
 			case 1: return item.getCategory();
-			case 2: return item.getDescription();
-			case 3: return item.getPrice0();
-			case 4: return item.getPrice1();
-			case 5: return item.getDiscount();
-			case 6: return item.getUpdated();
+			case 2: return item.getType();
+			case 3: return item.getBrand();
+			case 4: return item.getModel();
+			case 5: return item.getDescription();
+			case 6: return item.getPrice0();
+			case 7: return item.getPrice1();
+			case 8: return item.getDiscount();
+			case 9: return item.getUpdated();
 			default: return null;
 		}
 	}
